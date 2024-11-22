@@ -9,7 +9,7 @@ const Contact = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex items-center">
             <Mail className="w-6 h-6 mr-3 text-gray-600" />
-            <span>johndoe@example.com</span>
+            <span>rizal@example.com</span>
           </div>
           <div className="flex items-center">
             <Phone className="w-6 h-6 mr-3 text-gray-600" />
