@@ -14,8 +14,6 @@ const CVUpload = () => {
   ];
 
   const checkATSCompliance = (file) => {
-    // Simulasi pengecekan ATS - dalam implementasi nyata, 
-    // ini bisa menggunakan API atau library parsing dokumen
     return new Promise((resolve) => {
       setTimeout(() => {
         const mockFeedback = {
