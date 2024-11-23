@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Trash } from 'lucide-react';
+import Swal from 'sweetalert2';
 
 const Skills = () => {
   const [skills, setSkills] = useState([
@@ -11,13 +12,49 @@ const Skills = () => {
   const [newSkill, setNewSkill] = useState({ name: "", level: "" });
 
   const addSkill = () => {
-    if (!newSkill.name || !newSkill.level) return;
+    if (!newSkill.name || !newSkill.level) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all fields!',
+        confirmButtonColor: '#3B82F6'
+      });
+      return;
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Skill Added!',
+      text: `${newSkill.name} has been added to your skills`,
+      showConfirmButton: false,
+      timer: 1500
+    });
+
     setSkills([...skills, { ...newSkill, id: Date.now() }]);
     setNewSkill({ name: "", level: "" });
   };
 
   const deleteSkill = (id) => {
-    setSkills(skills.filter(skill => skill.id !== id));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3B82F6',
+      cancelButtonColor: '#EF4444',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setSkills(skills.filter(skill => skill.id !== id));
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your skill has been deleted.',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    });
   };
 
   return (

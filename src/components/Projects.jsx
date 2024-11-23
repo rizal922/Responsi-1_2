@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Trash } from 'lucide-react';
+import Swal from 'sweetalert2';
 
 const Projects = () => {
   const [projects, setProjects] = useState([
@@ -14,7 +15,24 @@ const Projects = () => {
   const [newProject, setNewProject] = useState({ title: "", description: "", tech: "" });
 
   const addProject = () => {
-    if (!newProject.title || !newProject.description || !newProject.tech) return;
+    if (!newProject.title || !newProject.description || !newProject.tech) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all fields!',
+        confirmButtonColor: '#3B82F6'
+      });
+      return;
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Project Added!',
+      text: `${newProject.title} has been added to your projects`,
+      showConfirmButton: false,
+      timer: 1500
+    });
+
     setProjects([...projects, { 
       ...newProject, 
       id: Date.now(),
@@ -24,7 +42,26 @@ const Projects = () => {
   };
 
   const deleteProject = (id) => {
-    setProjects(projects.filter(project => project.id !== id));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3B82F6',
+      cancelButtonColor: '#EF4444',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setProjects(projects.filter(project => project.id !== id));
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your project has been deleted.',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    });
   };
 
   return (
